@@ -2,6 +2,10 @@
 A little something made to look after Epic Games' free mystery games. Works on user's demand.
 
 
+## The hell is this ?
+
+Looks after available free game promotions from the [Epic Game Store](https://www.epicgames.com/store/free-games).
+
 ## Setup
 
 1) Go on [Discord's Developer Portal](https://discord.com/developers)
