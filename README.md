@@ -16,7 +16,7 @@ A little something made to look after Epic Games' free mystery games. Works on u
 
 5) On the project folder, create an ".env" file with this info :
 
-"TOKEN=<thebotstoken>"
+"TOKEN= thebotstoken"
 
 Save the file, and you're good to go !
 
