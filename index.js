@@ -1,55 +1,59 @@
+// Required consts for the program to work
 require('dotenv').config();
 const Discord = require('discord.js');
 const fetch = require('node-fetch');
 const bot = new Discord.Client();
 const TOKEN = process.env.TOKEN;
 
+// Make the bot log in using the token you've put in your .env file
 bot.login(TOKEN);
 
-
+// Send a message to your CMD saying that your bot is ready to go
 bot.on('ready', () => {
   console.info(`Logged in as ${bot.user.tag}!`);
 });
 
+// React on epic.freegame message
 bot.on('message', msg => {
   if(msg.content === 'epic.freegame') {
+    // Fetch data from Epic Games' API
     const body = fetch("https://store-site-backend-static.ak.epicgames.com/freeGamesPromotions")
     .then((stock) => {
-    return stock.json()
-    }).then(json => {
-      var date = new Date();
-      var day  = date.getDate();
-      var nextDay = day + 1;
-      var constructedDate = "december" + day + "mysterygame";
-      var constructedTDate = "december" + nextDay + "mysterygame";
+      // Convert recieved data into JSON
+      return stock.json()
+    })
+    .then(json => {
+      // Gather today's date to get our mystery games
+      const day = new Date().getDate();
+      // Add +1 to get tomorrow's date
+      const nextDay = day + 1;
+      // Find both today's and tomorrow's mystery game (Epic seems to load the next free game data 30 minutes before the game goes free on their store, so both are indicated)
       var todaysfreegame = json.data.Catalog.searchStore.elements.find(it =>
       {
-      return it.urlSlug == constructedDate;
+      return it.urlSlug == "december" + day + "mysterygame";
       });
       var tomorrowsfreegame = json.data.Catalog.searchStore.elements.find(it =>
       {
-      return it.urlSlug == constructedTDate;
+      return it.urlSlug == "december" + nextDay + "mysterygame";
       });
-      var freeGame = todaysfreegame.title;
+      // Gather the game name on Epic's server (is used to create the link)
       var productSlug = todaysfreegame.customAttributes.find(it =>
       {
       return it.key == 'com.epicgames.app.productSlug';
       });
-      var nextGame = tomorrowsfreegame.title;
       var nextproductSlug = tomorrowsfreegame.customAttributes.find(it =>
       {
       return it.key == 'com.epicgames.app.productSlug';
       });
-      var trimmedPSlug = productSlug.value.replace('/home', '');
-      var trimmedNPSlug = nextproductSlug.value.replace('/home', '');
-      var link = "https://www.epicgames.com/store/product/" + trimmedPSlug + "/home"
-      var otlink = "https://www.epicgames.com/store/product/" + trimmedNPSlug + "/home"
-      if(nextGame == "Mystery Game"){
-        msg.reply("Today's free game is " + freeGame + " until 5:00 PM UTC+1.\nLink available here : " + link + ".\nNext game isn't leaked yet, you will need to wait !")
-      }
-      else {
-        msg.reply("Today's free game is " + freeGame + " until 5:00 PM UTC+1.\nLink available here : " + link + ".\nNext game is " + nextGame + ".\nLink (open at 5:00 PM UTC+1) : " + otlink)
-      }
+      // Create links for today's and tomorrow's game (if tomorrow's game isn't Mystery Game lol)
+      let link = "https://www.epicgames.com/store/product/" + productSlug.value.replace('/home', '') + "/home";
+      let otlink = "https://www.epicgames.com/store/product/" + nextproductSlug.value.replace('/home', '') + "/home";
+      // Verify if tomorrow's game name has been leaked (so, different from Mystery Game, and send a reply to the user who asked for today's free game)
+      if (tomorrowsfreegame.title == "Mystery Game"){
+        msg.reply("Today's free game is " + todaysfreegame.title + " until 5:00 PM UTC+1.\nLink available here : " + link + ".\nNext game isn't leaked yet, you will need to wait !");
+        } else {
+        msg.reply("Today's free game is " + todaysfreegame.title + " until 5:00 PM UTC+1.\nLink available here : " + link + ".\nNext game is " + tomorrowsfreegame.title + ".\nLink (open at 5:00 PM UTC+1) : " + otlink);
+      };
     });
-  }
+  };
 });
