@@ -31,24 +31,24 @@ bot.on('message', msg => {
       return it.urlSlug == "december" + day + "mysterygame";
       });
       // Add +1 to get tomorrow's free game
-      var tomorrowsfreegame = json.data.Catalog.searchStore.elements.find(it =>
-      {
-      return it.urlSlug == "december" + (day + 1) + "mysterygame";
-      });
-      // Gather the game name on Epic's server (is used to create the link)
-      var productSlug = todaysfreegame.customAttributes.find(it =>
-      {
-      return it.key == 'com.epicgames.app.productSlug';
-      });
-      var nextproductSlug = tomorrowsfreegame.customAttributes.find(it =>
-      {
-      return it.key == 'com.epicgames.app.productSlug';
-      });
+      let info;
+      if (json.data.Catalog.searchStore.elements.find(it => {
+       it.urlSlug == "december" + (day + 1) + "mysterygame";
+      }) !== null)  {
+          var tomorrowsfreegame = json.data.Catalog.searchStore.elements.find(it => {
+          return it.urlSlug == "december" + (day + 1) + "mysterygame";
+          info = true;
+          })}
+      else {
+        info = false;
+      }
       // Create links for today's and tomorrow's game (if tomorrow's game isn't Mystery Game lol)
-      let todaysgamelink = "https://www.epicgames.com/store/product/" + productSlug.value.replace('/home', '') + "/home";
-      let tomorrowsgamelink = "https://www.epicgames.com/store/product/" + nextproductSlug.value.replace('/home', '') + "/home";
+      let todaysgamelink = "https://www.epicgames.com/store/product/" + todaysfreegame.productSlug.replace('/home', '') + "/home";
+      if (tomorrowsfreegame !== null) {
+      let tomorrowsgamelink = "https://www.epicgames.com/store/product/" + tomorrowsfreegame.productSlug.replace('/home', '') + "/home";
+      }
       // Verify if tomorrow's game name has been leaked (so, different from Mystery Game, and send a reply to the user who asked for today's free game)
-      if (tomorrowsfreegame.title == "Mystery Game"){
+      if (tomorrowsfreegame.title == "Mystery Game" || info == false){
         msg.reply("Today's free game is " + todaysfreegame.title + " until 5:00 PM UTC+1.\nLink available here : " + todaysgamelink + ".\nNext game isn't leaked yet, you will need to wait !");
         } else {
         msg.reply("Today's free game is " + todaysfreegame.title + " until 5:00 PM UTC+1.\nLink available here : " + todaysgamelink + ".\nNext game is " + tomorrowsfreegame.title + ".\nLink (open at 5:00 PM UTC+1) : " + tomorrowsgamelink);
