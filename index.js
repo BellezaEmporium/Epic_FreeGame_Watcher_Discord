@@ -36,8 +36,8 @@ bot.on('message', msg => {
        it.urlSlug == "december" + (day + 1) + "mysterygame";
       }) !== null)  {
           var tomorrowsfreegame = json.data.Catalog.searchStore.elements.find(it => {
+            info = true;
           return it.urlSlug == "december" + (day + 1) + "mysterygame";
-          info = true;
           })}
       else {
         info = false;
@@ -52,7 +52,7 @@ bot.on('message', msg => {
         msg.reply("Today's free game is " + todaysfreegame.title + " until 5:00 PM UTC+1.\nLink available here : " + todaysgamelink + ".\nNext game isn't leaked yet, you will need to wait !");
         } else {
         msg.reply("Today's free game is " + todaysfreegame.title + " until 5:00 PM UTC+1.\nLink available here : " + todaysgamelink + ".\nNext game is " + tomorrowsfreegame.title + ".\nLink (open at 5:00 PM UTC+1) : " + tomorrowsgamelink);
-      };
+      }
     });
-  };
+  }
 });
