@@ -69,21 +69,26 @@ bot.on('message', msg => {
       return stock.json()
     })
     .then(json => {
-      const exampleEmbed = new Discord.MessageEmbed()
+      if (json.data.Catalog.searchStore.elements[0].title === undefined) {
+          msg.reply('No game has been found with this name.')
+      }
+      else {
+        const exampleEmbed = new Discord.MessageEmbed()
         .setColor('#0099ff')
         .setTitle(json.data.Catalog.searchStore.elements[0].title)
-        .setURL("https://www.epicgames.com/store/product/" + json.data.Catalog.searchStore.elements[0].urlSlug)
-        .setAuthor('Epic Free Game Watcher', 'https://cdn2.unrealengine.com/Unreal+Engine%2Feg-logo-filled-1255x1272-0eb9d144a0f981d1cbaaa1eb957de7a3207b31bb.png', 'https://www.epicgames.com/')
+        .setURL("https://www.epicgames.com/store/product/" + json.data.Catalog.searchStore.elements[0].productSlug.replace('/home', '') + "/home")
+        .setAuthor('Epic Free Game Watcher', 'https://cdn2.unrealengine.com/Unreal+Engine%2Feg-logo-filled-1255x1272-0eb9d144a0f981d1cbaaa1eb957de7a3207b31bb.png', 'https://github.com/LaneSh4d0w/Epic_FreeGame_Watcher_Discord')
         .setDescription('Found your requested game !')
         .setThumbnail(json.data.Catalog.searchStore.elements[0].keyImages[3].url)
         .addFields(
-          { name: 'Price', value: json.data.Catalog.searchStore.elements[0].price.totalPrice.fmtPrice.originalPrice },
-          { name: 'Developer', value: json.data.Catalog.searchStore.elements[0].seller.name, inline: true },
+          { name: 'Price', value: json.data.Catalog.searchStore.elements[0].price.totalPrice.fmtPrice.originalPrice},
+          { name: 'Developer', value: json.data.Catalog.searchStore.elements[0].seller.name},
         )
         .setTimestamp()
         .setFooter('Bot made by Lane_Sh4d0w', 'https://cdn2.unrealengine.com/Unreal+Engine%2Feg-logo-filled-1255x1272-0eb9d144a0f981d1cbaaa1eb957de7a3207b31bb.png');
 
       msg.reply(exampleEmbed);
+      }
     });
     }
   };
