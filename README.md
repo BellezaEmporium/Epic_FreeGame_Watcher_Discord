@@ -1,10 +1,10 @@
 # Epic_FreeGame_Watcher_Discord
-A little something made to look after Epic Games' free mystery games. Works on user's demand.
+A little something made to look after Epic Games' free games. Works on user's demand.
 
 
 ## The hell is this ?
 
-Looks after available free game promotions from the [Epic Game Store](https://www.epicgames.com/store/free-games).
+Looks after available free game promotions from the [Epic Games Store](https://www.epicgames.com/store/free-games).
 
 ## Setup
 
