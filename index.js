@@ -42,17 +42,15 @@ bot.on('message', msg => {
         .setColor('#0099ff')
         .setTitle('Epic free games, as of ' + date.toString())
         .setURL('https://www.epicgames.com/store/browse?sortBy=releaseDate&sortDir=DESC&priceTier=tierFree&pageSize=30')
-        .setAuthor('Epic Free Game Watcher', 'https://cdn2.unrealengine.com/Unreal+Engine%2Feg-logo-filled-1255x1272-0eb9d144a0f981d1cbaaa1eb957de7a3207b31bb.png', 'https://www.epicgames.com/')
+        .setAuthor('Epic Games Watcher', 'https://cdn2.unrealengine.com/Unreal+Engine%2Feg-logo-filled-1255x1272-0eb9d144a0f981d1cbaaa1eb957de7a3207b31bb.png', 'https://www.epicgames.com/')
         .setDescription(allGamesInOne)
         .setThumbnail('https://cdn2.unrealengine.com/Unreal+Engine%2Feg-logo-filled-1255x1272-0eb9d144a0f981d1cbaaa1eb957de7a3207b31bb.png')
         .setTimestamp()
-        .setFooter('Bot made by Lane_Sh4d0w', 'https://cdn2.unrealengine.com/Unreal+Engine%2Feg-logo-filled-1255x1272-0eb9d144a0f981d1cbaaa1eb957de7a3207b31bb.png');
+        .setFooter('Bot made by LaneSh4d0w', 'https://cdn2.unrealengine.com/Unreal+Engine%2Feg-logo-filled-1255x1272-0eb9d144a0f981d1cbaaa1eb957de7a3207b31bb.png');
 
       msg.reply(exampleEmbed);
     });
-  }
-  else if(command === ".search") {
-
+  } else if (command === ".search") {
     if (!args.length) {
       msg.reply("you didn't provide any name !")
     }
@@ -84,7 +82,7 @@ bot.on('message', msg => {
           { name: 'Developer', value: json.data.Catalog.searchStore.elements[0].seller.name},
         )
         .setTimestamp()
-        .setFooter('Bot made by Lane_Sh4d0w', 'https://cdn2.unrealengine.com/Unreal+Engine%2Feg-logo-filled-1255x1272-0eb9d144a0f981d1cbaaa1eb957de7a3207b31bb.png');
+        .setFooter('Bot made by LaneSh4d0w', 'https://cdn2.unrealengine.com/Unreal+Engine%2Feg-logo-filled-1255x1272-0eb9d144a0f981d1cbaaa1eb957de7a3207b31bb.png');
         msg.reply(exampleEmbed);
       } else {
          const exampleEmbed = new Discord.MessageEmbed()
@@ -98,10 +96,23 @@ bot.on('message', msg => {
           { name: 'Developer', value: json.data.Catalog.searchStore.elements[0].seller.name},
         )
         .setTimestamp()
-        .setFooter('Bot made by Lane_Sh4d0w', 'https://cdn2.unrealengine.com/Unreal+Engine%2Feg-logo-filled-1255x1272-0eb9d144a0f981d1cbaaa1eb957de7a3207b31bb.png');
+        .setFooter('Bot made by LaneSh4d0w', 'https://cdn2.unrealengine.com/Unreal+Engine%2Feg-logo-filled-1255x1272-0eb9d144a0f981d1cbaaa1eb957de7a3207b31bb.png');
         msg.reply(exampleEmbed);
       }
     });
     }
-  };
+  } else if (command == ".help") {
+    const exampleEmbed = new Discord.MessageEmbed()
+        .setColor('#0099ff')
+        .setTitle("Epic Games Bot Help Command")
+        .setAuthor('Epic Games Bot', 'https://cdn2.unrealengine.com/Unreal+Engine%2Feg-logo-filled-1255x1272-0eb9d144a0f981d1cbaaa1eb957de7a3207b31bb.png', 'https://github.com/LaneSh4d0w/Epic_FreeGame_Watcher_Discord')
+        .setDescription("This bot is made for you to get direct access to Epic's Free Games, by using their GraphQL API.\nCommands are as follows: ")
+        .addFields(
+          { name: 'search', value: "Usage : <prefix>.search *name of the game*\nSearches for a game from the Epic Games Store."},
+          { name: 'games', value: "Usage : <prefix>.games\nShows the actual free games offered on the Epic Games Store to today's date."},
+        )
+        .setTimestamp()
+        .setFooter('Bot made by LaneSh4d0w', 'https://cdn2.unrealengine.com/Unreal+Engine%2Feg-logo-filled-1255x1272-0eb9d144a0f981d1cbaaa1eb957de7a3207b31bb.png');
+        msg.reply(exampleEmbed);
+  }
 });
